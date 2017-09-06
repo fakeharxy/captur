@@ -1,9 +1,9 @@
-class NotesController < ApiController
+class NotesController < ActionController::API 
   before_action :set_note, only: [:show, :update, :destroy]
 
   # GET /notes
   def index
-    @notes = Note.all
+    @notes = Note.all.order(last_seen: :desc)
 
     render json: @notes
   end
