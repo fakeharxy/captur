@@ -31,7 +31,9 @@ class App extends Component {
 
   onPrev() {
     var noteNumber = this.state.noteNumber
+    if (noteNumber > 0) {
     noteNumber--
+    }
     this.setState ({ noteNumber })
   }
 
@@ -53,20 +55,23 @@ class App extends Component {
           <div> No more notes </div>
         )
       }
-      <span>
-              <button
-                onClick={() => this.onPrev()}
-                type="button"
-> Prev
-              </button>
-            </span>
-      <span>
-              <button
-                onClick={() => this.onNext()}
-                type="button"
-> Next
-              </button>
-            </span>
+      { noteNumber == 0 ? null :
+        <span>
+            <button
+              onClick={() => this.onPrev()}
+              type="button">
+              Prev
+            </button>
+        </span> }
+      { noteNumber == notes.length ? null :
+         <span>
+           <button
+             onClick={() => this.onNext()}
+             type="button">
+              Next
+           </button>
+         </span>
+      }
      </div> 
     );
   }
