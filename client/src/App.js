@@ -10,10 +10,12 @@ class App extends Component {
     this.state = {
       notes: [],
       noteNumber: 0,
+      currentNote: '',
     };
 
     this.onNext = this.onNext.bind(this);
     this.onPrev = this.onPrev.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
 
@@ -37,6 +39,11 @@ class App extends Component {
     this.setState ({ noteNumber })
   }
 
+  handleChange(e) {
+    var currentNote = e.target.value;
+    this.setState ({ currentNote })
+  }
+
   setupNotes(notes) {
     this.setState({ notes });
   }
@@ -45,7 +52,37 @@ class App extends Component {
     const { notes, noteNumber } = this.state
     return (
       <div className="App">
-      { notes[noteNumber] ? (
+      <Entry 
+      value={this.value}
+      onChange={this.handleChange}/>
+      <Note
+      notes={notes}
+      noteNumber={noteNumber}
+      />
+      { noteNumber == 0 ? null :
+        <Button
+        onClick={()=> this.onPrev()}
+        >Previous</Button>
+      }
+      { noteNumber == notes.length ? null :
+        <Button
+        onClick={()=> this.onNext()}
+        >Next</Button>
+      }
+     </div> 
+    );
+  }
+}
+
+const Entry = ({onChange, value}) =>
+  <div>
+    <input type="textarea" value={value} onChange={onChange} />
+    <button type="submit" name="submit" >Submit</button>
+  </div>
+
+const Note = ({ notes, noteNumber}) => 
+      <div>
+            { notes[noteNumber] ? (
         <div key={notes[noteNumber].id}>
           <span>
             <p>{notes[noteNumber].body}</p>
@@ -55,26 +92,15 @@ class App extends Component {
           <div> No more notes </div>
         )
       }
-      { noteNumber == 0 ? null :
-        <span>
+      </div>
+
+const Button = ({onClick, children}) =>
+          <span>
             <button
-              onClick={() => this.onPrev()}
+              onClick={onClick}
               type="button">
-              Prev
+          {children}
             </button>
-        </span> }
-      { noteNumber == notes.length ? null :
-         <span>
-           <button
-             onClick={() => this.onNext()}
-             type="button">
-              Next
-           </button>
-         </span>
-      }
-     </div> 
-    );
-  }
-}
+          </span> 
 
 export default App;
