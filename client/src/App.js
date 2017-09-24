@@ -16,6 +16,7 @@ class App extends Component {
     this.onNext = this.onNext.bind(this);
     this.onPrev = this.onPrev.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
 
@@ -28,32 +29,52 @@ class App extends Component {
   onNext() {
     var noteNumber = this.state.noteNumber
     noteNumber++
-    this.setState ({ noteNumber })
+    this.setState({
+      noteNumber
+    })
   }
 
   onPrev() {
     var noteNumber = this.state.noteNumber
     if (noteNumber > 0) {
-    noteNumber--
+      noteNumber--
     }
-    this.setState ({ noteNumber })
+    this.setState({
+      noteNumber
+    })
   }
 
   handleChange(e) {
-    var currentNote = e.target.value;
-    this.setState ({ currentNote })
+    this.setState({
+      currentNote: e.target.value
+    })
+  }
+
+  onSubmit(e) {
+    console.log(this.state.currentNote);
+    this.setState({
+      currentNote: ""
+    });
+    e.preventDefault();
   }
 
   setupNotes(notes) {
-    this.setState({ notes });
+    this.setState({
+      notes
+    });
   }
 
   render() {
-    const { notes, noteNumber } = this.state
+    const {
+      notes,
+      noteNumber,
+      currentNote
+    } = this.state
     return (
       <div className="App">
       <Entry 
-      value={this.value}
+      onSubmit={this.onSubmit}
+      value={currentNote}
       onChange={this.handleChange}/>
       <Note
       notes={notes}
@@ -69,19 +90,26 @@ class App extends Component {
         onClick={()=> this.onNext()}
         >Next</Button>
       }
-     </div> 
+     </div>
     );
   }
 }
 
-const Entry = ({onChange, value}) =>
-  <div>
+const Entry = ({
+    onChange,
+    value,
+    onSubmit
+  }) =>
+  <form onSubmit={onSubmit}>
     <input type="textarea" value={value} onChange={onChange} />
     <button type="submit" name="submit" >Submit</button>
-  </div>
+  </form>
 
-const Note = ({ notes, noteNumber}) => 
-      <div>
+const Note = ({
+    notes,
+    noteNumber
+  }) =>
+  <div>
             { notes[noteNumber] ? (
         <div key={notes[noteNumber].id}>
           <span>
@@ -94,13 +122,16 @@ const Note = ({ notes, noteNumber}) =>
       }
       </div>
 
-const Button = ({onClick, children}) =>
-          <span>
-            <button
-              onClick={onClick}
-              type="button">
-          {children}
-            </button>
-          </span> 
+const Button = ({
+    onClick,
+    children
+  }) =>
+      <span>
+        <button
+          onClick={onClick}
+          type="button">
+            {children}
+        </button>
+      </span>
 
 export default App;
