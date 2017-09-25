@@ -51,11 +51,19 @@ class App extends Component {
   }
 
   onSubmit(e) {
-    console.log(this.state.currentNote);
+    e.preventDefault();
+    const formData = {
+      "note": {
+        "body": this.state.currentNote
+      }
+    }
+    var request = new XMLHttpRequest();
+    request.open('POST', '/api/notes', true);
+    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    request.send(JSON.stringify(formData));
     this.setState({
       currentNote: ""
     });
-    e.preventDefault();
   }
 
   setupNotes(notes) {
@@ -126,7 +134,7 @@ const Button = ({
     onClick,
     children
   }) =>
-      <span>
+  <span>
         <button
           onClick={onClick}
           type="button">
