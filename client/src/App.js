@@ -9,12 +9,11 @@ class App extends Component {
     super(props);
     this.state = {
       notes: [],
-      noteNumber: 0,
       currentNote: '',
+      viewableNote: {},
     };
 
     this.onNext = this.onNext.bind(this);
-    this.onPrev = this.onPrev.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -27,20 +26,12 @@ class App extends Component {
   }
 
   onNext() {
-    var noteNumber = this.state.noteNumber
-    noteNumber++
+    var notes = this.state.notes;
+    notes.push(notes.splice(0,1)[0]);
+    var viewableNote = notes[0];
     this.setState({
-      noteNumber
-    })
-  }
-
-  onPrev() {
-    var noteNumber = this.state.noteNumber
-    if (noteNumber > 0) {
-      noteNumber--
-    }
-    this.setState({
-      noteNumber
+      notes,
+      viewableNote
     })
   }
 
@@ -67,37 +58,37 @@ class App extends Component {
   }
 
   setupNotes(notes) {
+    var viewableNote = notes[0]
     this.setState({
-      notes
+      notes,
+      viewableNote
     });
+    
   }
 
   render() {
     const {
       notes,
-      noteNumber,
-      currentNote
+      currentNote,
+      viewableNote
     } = this.state
+
     return (
       <div className="App">
-      <Entry 
-      onSubmit={this.onSubmit}
-      value={currentNote}
-      onChange={this.handleChange}/>
-      <Note
-      notes={notes}
-      noteNumber={noteNumber}
+
+      <Entry
+        onSubmit={this.onSubmit}
+        value={currentNote}
+        onChange={this.handleChange}/>
+
+      <NoteBox
+        viewableNote={viewableNote}
       />
-      { noteNumber == 0 ? null :
-        <Button
-        onClick={()=> this.onPrev()}
-        >Previous</Button>
-      }
-      { noteNumber == notes.length ? null :
-        <Button
+
+      <Button
         onClick={()=> this.onNext()}
         >Next</Button>
-      }
+
      </div>
     );
   }
@@ -113,21 +104,15 @@ const Entry = ({
     <button type="submit" name="submit" >Submit</button>
   </form>
 
-const Note = ({
-    notes,
-    noteNumber
+const NoteBox = ({
+    viewableNote,
   }) =>
-  <div>
-            { notes[noteNumber] ? (
-        <div key={notes[noteNumber].id}>
+  <div className="alert alert-success" role="alert">
+        <div key={viewableNote.id}>
           <span>
-            <p>{notes[noteNumber].body}</p>
+            <p>{viewableNote.body}</p>
           </span>
         </div>
-      ) : (
-          <div> No more notes </div>
-        )
-      }
       </div>
 
 const Button = ({
