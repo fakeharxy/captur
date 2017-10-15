@@ -3,7 +3,7 @@ class NotesController < ActionController::API
 
   # GET /notes
   def index
-    @notes = Note.all.order(last_seen: :desc)
+    @notes = Note.order_by_last_seen
 
     render json: @notes
   end
