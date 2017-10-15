@@ -10,10 +10,17 @@ RSpec.describe Note do
   end
 
   context 'creating tags' do
-    it 'adds multiples tags to the database' do
+    before(:each) do
       Note.all_tags = 'Mike,Bob,Terry'
-      expect(Note.all_tags).to eq("Mike, Bob, Terry")
+    end
+
+    it 'adds multiples tags to the database' do
+      expect(Note.tags.count).to eq(3)
       Note.all
+    end
+
+    it 'can get tags in as a string' do
+      expect(Note.all_tags).to eq('Mike, Bob, Terry')
     end
   end
 end

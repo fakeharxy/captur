@@ -38,6 +38,11 @@ class NotesController < ActionController::API
     @note.destroy
   end
 
+  def update_last_seen
+    note = Note.find_by id: params['note']['note_id']
+    note.update(:last_seen => DateTime.now)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_note
@@ -46,6 +51,6 @@ class NotesController < ActionController::API
 
     # Only allow a trusted parameter "white list" through.
     def note_params
-      params.require(:note).permit(:body, :last_seen)
+      params.require(:note).permit(:note_id, :body, :last_seen, :all_tags)
     end
 end

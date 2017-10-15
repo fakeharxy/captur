@@ -10,6 +10,7 @@ class App extends Component {
     this.state = {
       notes: [],
       currentNote: '',
+      currentTag: '',
       viewableNote: {},
     };
 
@@ -27,13 +28,27 @@ class App extends Component {
 
   onNext() {
     var notes = this.state.notes;
-    notes.push(notes.splice(0,1)[0]);
+    const formData = {
+      "note": {
+        "note_id": notes[0].id
+      }
+    }
+    this.sendDatatoApi('notes/update_last_seen', formData)
+    notes.push(notes.splice(0, 1)[0]);
     var viewableNote = notes[0];
     this.setState({
       notes,
       viewableNote
     })
   }
+
+  sendDatatoApi(where,what) {
+    var request = new XMLHttpRequest();
+    request.open('POST', '/api/' + where, true);
+    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    request.send(JSON.stringify(what));
+  }
+
 
   handleChange(e) {
     this.setState({
@@ -48,10 +63,7 @@ class App extends Component {
         "body": this.state.currentNote
       }
     }
-    var request = new XMLHttpRequest();
-    request.open('POST', '/api/notes', true);
-    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    request.send(JSON.stringify(formData));
+    this.sendDatatoApi('/notes', formData)
     this.setState({
       currentNote: ""
     });
@@ -63,7 +75,7 @@ class App extends Component {
       notes,
       viewableNote
     });
-    
+
   }
 
   render() {
