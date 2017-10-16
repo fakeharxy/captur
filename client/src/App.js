@@ -1,7 +1,7 @@
 import React, {
   Component
 } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -15,7 +15,8 @@ class App extends Component {
     };
 
     this.onNext = this.onNext.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleNoteChange = this.handleNoteChange.bind(this);
+    this.handleTagChange = this.handleTagChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -50,9 +51,15 @@ class App extends Component {
   }
 
 
-  handleChange(e) {
+  handleNoteChange(e) {
     this.setState({
-      currentNote: e.target.value
+      currentNote: e.target.value,
+    })
+  }
+
+  handleTagChange(e) {
+    this.setState({
+      currentTag: e.target.value,
     })
   }
 
@@ -60,12 +67,14 @@ class App extends Component {
     e.preventDefault();
     const formData = {
       "note": {
-        "body": this.state.currentNote
+        "body": this.state.currentNote,
+        "all_tags": this.state.currentTag
       }
     }
     this.sendDatatoApi('/notes', formData)
     this.setState({
-      currentNote: ""
+      currentNote: "",
+      currentTag: ""
     });
   }
 
@@ -80,7 +89,7 @@ class App extends Component {
 
   render() {
     const {
-      notes,
+      currentTag,
       currentNote,
       viewableNote
     } = this.state
@@ -90,8 +99,10 @@ class App extends Component {
 
       <Entry
         onSubmit={this.onSubmit}
-        value={currentNote}
-        onChange={this.handleChange}/>
+        currentNote={currentNote}
+        currentTag={currentTag}
+        onNoteChange={this.handleNoteChange}
+        onTagChange={this.handleTagChange}/>
 
       <NoteBox
         viewableNote={viewableNote}
@@ -107,12 +118,15 @@ class App extends Component {
 }
 
 const Entry = ({
-    onChange,
-    value,
+    onNoteChange,
+    onTagChange,
+    currentTag,
+    currentNote,
     onSubmit
   }) =>
   <form onSubmit={onSubmit}>
-    <input type="textarea" value={value} onChange={onChange} />
+    <input type="textarea" value={currentNote} onChange={onNoteChange} />
+    <input type="text" value={currentTag} onChange={onTagChange} />
     <button type="submit" name="submit" >Submit</button>
   </form>
 

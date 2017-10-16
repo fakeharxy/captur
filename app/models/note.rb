@@ -6,17 +6,17 @@ class Note < ApplicationRecord
     all.order(:last_seen)
   end
 
-  def self.all_tags=(names)
-    names.split(',').map do |name|
-      Tag.create!(name: name)
+  def all_tags=(names)
+    self.tags = names.split(',').map do |name|
+      Tag.where(name: name.strip).first_or_create!
     end
   end
 
-  def self.tags
-    Tag.all
+  def all_tags
+    self.tags.map(&:name).join(", ")
   end
 
-  def self.all_tags
-    Tag.all.map(&:name).join(", ")
+  def self.tagged_with(name)
+    Tag.find_by_name!(name).notes
   end
 end

@@ -15,7 +15,11 @@ class NotesController < ActionController::API
 
   # POST /notes
   def create
-    @note = Note.new(note_params)
+    @note = Note.new(:id => note_params['note_id'],
+                     :body => note_params['body'],
+                     :last_seen => DateTime.now)
+
+    @note.all_tags = note_params['all_tags']
 
     if @note.save
       render json: @note, status: :created, location: @note

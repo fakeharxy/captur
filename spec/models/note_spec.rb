@@ -11,16 +11,34 @@ RSpec.describe Note do
 
   context 'creating tags' do
     before(:each) do
-      Note.all_tags = 'Mike,Bob,Terry'
+      @note = Note.create!
+      @note.all_tags = 'Mike,Bob,Terry'
     end
 
     it 'adds multiples tags to the database' do
-      expect(Note.tags.count).to eq(3)
-      Note.all
+      expect(@note.tags.count).to eq(3)
     end
 
     it 'can get tags in as a string' do
-      expect(Note.all_tags).to eq('Mike, Bob, Terry')
+      expect(@note.all_tags).to eq('Mike, Bob, Terry')
+    end
+  end
+
+  context 'validations' do
+    it 'strips out spaces' do
+      @note = Note.create!
+      @note.all_tags = 'Mike         ,Bob,      Terry'
+      expect(@note.all_tags).to eq('Mike, Bob, Terry')
+    end
+  end
+
+  context 'searching on tags' do
+    it 'finds all notes with a tag' do
+     [@note1 = Note.create!,
+      @note2 = Note.create!].each do |note|
+       note.all_tags = "testTag"
+     end
+     expect(Note.tagged_with("testTag").count).to eq(2)
     end
   end
 end
