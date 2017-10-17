@@ -3,6 +3,9 @@ import React, {
 } from 'react';
 // import logo from './logo.svg';
 import './App.css';
+import NoteBox from './components/noteBox/noteBox.js';
+import Entry from './components/entryForm/entry.js';
+import Sidebar from './components/sidebar/sidebar.js';
 
 class App extends Component {
   constructor(props) {
@@ -19,7 +22,6 @@ class App extends Component {
     this.handleTagChange = this.handleTagChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-
 
   componentDidMount() {
     window.fetch('api/notes')
@@ -49,7 +51,6 @@ class App extends Component {
     request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     request.send(JSON.stringify(what));
   }
-
 
   handleNoteChange(e) {
     this.setState({
@@ -95,62 +96,24 @@ class App extends Component {
     } = this.state
 
     return (
-      <div className="App">
+      <div className="wrapper">
+      <Sidebar />
+    <div id='content'>
+          <Entry
+            onSubmit={this.onSubmit}
+            currentNote={currentNote}
+            currentTag={currentTag}
+            onNoteChange={this.handleNoteChange}
+            onTagChange={this.handleTagChange}/>
 
-      <Entry
-        onSubmit={this.onSubmit}
-        currentNote={currentNote}
-        currentTag={currentTag}
-        onNoteChange={this.handleNoteChange}
-        onTagChange={this.handleTagChange}/>
-
-      <NoteBox
-        viewableNote={viewableNote}
-      />
-
-      <Button
-        onClick={()=> this.onNext()}
-        >Next</Button>
-
-     </div>
+          <NoteBox
+            viewableNote={viewableNote}
+            onNext={this.onNext}
+          />
+      </div>
+      </div>
     );
   }
 }
-
-const Entry = ({
-    onNoteChange,
-    onTagChange,
-    currentTag,
-    currentNote,
-    onSubmit
-  }) =>
-  <form onSubmit={onSubmit}>
-    <input type="textarea" value={currentNote} onChange={onNoteChange} />
-    <input type="text" value={currentTag} onChange={onTagChange} />
-    <button type="submit" name="submit" >Submit</button>
-  </form>
-
-const NoteBox = ({
-    viewableNote,
-  }) =>
-  <div className="alert alert-success" role="alert">
-        <div key={viewableNote.id}>
-          <span>
-            <p>{viewableNote.body}</p>
-          </span>
-        </div>
-      </div>
-
-const Button = ({
-    onClick,
-    children
-  }) =>
-  <span>
-        <button
-          onClick={onClick}
-          type="button">
-            {children}
-        </button>
-      </span>
 
 export default App;
