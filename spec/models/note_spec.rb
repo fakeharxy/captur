@@ -7,11 +7,17 @@ RSpec.describe Note do
       Note.create!(body: 'Last', last_seen: DateTime.now - 10)
       expect(Note.order_by_last_seen[0].body).to eq('Last')
     end
+
+    it 'cannot create an empty note' do
+      note = Note.new(body: '', last_seen: DateTime.now - 5)
+      assert !note.valid?
+      assert_equal [:body], note.errors.keys
+    end
   end
 
   context 'creating tags' do
     before(:each) do
-      @note = Note.create!
+      @note = Note.create!(body: "test")
       @note.all_tags = 'Mike,Bob,Terry'
     end
 
@@ -26,7 +32,7 @@ RSpec.describe Note do
 
   context 'validations' do
     it 'strips out spaces' do
-      @note = Note.create!
+      @note = Note.create!(body: "test")
       @note.all_tags = 'Mike         ,Bob,      Terry'
       expect(@note.all_tags).to eq('Mike, Bob, Terry')
     end
@@ -34,8 +40,8 @@ RSpec.describe Note do
 
   context 'searching on tags' do
     it 'finds all notes with a tag' do
-     [@note1 = Note.create!,
-      @note2 = Note.create!].each do |note|
+     [@note1 = Note.create!(body: "test"),
+      @note2 = Note.create!(body: "test")].each do |note|
        note.all_tags = "testTag"
      end
      expect(Note.tagged_with("testTag").count).to eq(2)

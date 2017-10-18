@@ -1,6 +1,9 @@
 import * as React from 'react';
 
-const Sidebar =({}) =>
+const Sidebar =({
+  tags,
+  changeTag
+   }) =>
 
 <nav id="sidebar">
       <div className="sidebar-header">
@@ -8,15 +11,9 @@ const Sidebar =({}) =>
       </div>
 
       <ul className="list-unstyled components">
-          <li><a href="#">#welcome</a></li>
-          <li><a href="#">#remember</a></li>
-
-          <li>
-              <a href="#">#thoughts</a>
-          </li>
-
-          <li><a href="#">#portfolio</a></li>
-          <li><a href="#">#react</a></li>
+  {tags.map((tag) =>
+          <li key={tag.id}><a onClick={() => changeTag(tag.name)}>#{tag.name}</a></li>
+  )} 
       </ul>
 </nav>
 

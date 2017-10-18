@@ -1,6 +1,7 @@
 class Note < ApplicationRecord
   has_many :taggings
   has_many :tags, through: :taggings
+  validates :body, presence: true
 
   def self.order_by_last_seen
     all.order(:last_seen)

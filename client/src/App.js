@@ -15,9 +15,12 @@ class App extends Component {
       notes: [],
       currentNote: '',
       currentTag: '',
+      selectedTag: 'Note',
       viewableNote: {},
+      tags: [],
     };
 
+    this.changeTag = this.changeTag.bind(this);
     this.onNext = this.onNext.bind(this);
     this.handleNoteChange = this.handleNoteChange.bind(this);
     this.handleTagChange = this.handleTagChange.bind(this);
@@ -29,7 +32,28 @@ class App extends Component {
   componentDidMount() {
     window.fetch('api/notes')
       .then(response => response.json())
-      .then(notes => this.setupNotes(notes))
+      .then(notes => this.setupNotes(notes));
+    window.fetch('api/tags/get_all')
+      .then(response => response.json())
+      .then(tags => this.setupTags(tags));
+  }
+
+  setupNotes(notes) {
+    var viewableNote = notes[0]
+    this.setState({
+      notes,
+      viewableNote
+    });
+  }
+
+  setupTags(tags) {
+    this.setState({
+      tags,
+    });
+  }
+
+  changeTag(selectedTag) {
+    this.setState({selectedTag});
   }
 
   closeModal() {
@@ -90,26 +114,23 @@ class App extends Component {
     });
   }
 
-  setupNotes(notes) {
-    var viewableNote = notes[0]
-    this.setState({
-      notes,
-      viewableNote
-    });
-
-  }
 
   render() {
     const {
       currentTag,
       currentNote,
+      tags,
       viewableNote,
-      showModal
+      showModal,
+      selectedTag
     } = this.state
 
     return (
       <div className="wrapper">
-      <Sidebar />
+      <Sidebar 
+       tags={tags}
+       changeTag={this.changeTag}
+      />
     <div id='content'>
           <EntryBox
             showModal={showModal}
@@ -123,8 +144,9 @@ class App extends Component {
           <NoteBox
             viewableNote={viewableNote}
             onNext={this.onNext}
+            selectedTag={selectedTag}
           />
-      <button onClick={this.openModal}> modal </button>
+      <button onClick={this.openModal}> Add New </button>
       </div>
       </div>
     );
