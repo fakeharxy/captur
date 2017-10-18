@@ -6,6 +6,7 @@ const Button = ({
   }) =>
   <span>
         <button
+          className="btn btn-info pull-right"
           onClick={onClick}
           type="button">
             {children}

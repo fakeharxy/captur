@@ -4,13 +4,14 @@ import React, {
 // import logo from './logo.svg';
 import './App.css';
 import NoteBox from './components/noteBox/noteBox.js';
-import Entry from './components/entryForm/entry.js';
 import Sidebar from './components/sidebar/sidebar.js';
+import EntryBox from './components/entryForm/entryBox.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showModal: false,
       notes: [],
       currentNote: '',
       currentTag: '',
@@ -21,12 +22,22 @@ class App extends Component {
     this.handleNoteChange = this.handleNoteChange.bind(this);
     this.handleTagChange = this.handleTagChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.openModal = this.openModal.bind(this);
   }
 
   componentDidMount() {
     window.fetch('api/notes')
       .then(response => response.json())
       .then(notes => this.setupNotes(notes))
+  }
+
+  closeModal() {
+    this.setState({ showModal: false });
+  }
+
+  openModal() {
+    this.setState({ showModal: true });
   }
 
   onNext() {
@@ -92,14 +103,17 @@ class App extends Component {
     const {
       currentTag,
       currentNote,
-      viewableNote
+      viewableNote,
+      showModal
     } = this.state
 
     return (
       <div className="wrapper">
       <Sidebar />
     <div id='content'>
-          <Entry
+          <EntryBox
+            showModal={showModal}
+            closeModal={this.closeModal}
             onSubmit={this.onSubmit}
             currentNote={currentNote}
             currentTag={currentTag}
@@ -110,6 +124,7 @@ class App extends Component {
             viewableNote={viewableNote}
             onNext={this.onNext}
           />
+      <button onClick={this.openModal}> modal </button>
       </div>
       </div>
     );
