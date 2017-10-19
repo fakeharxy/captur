@@ -42,6 +42,12 @@ class NotesController < ActionController::API
     @note.destroy
   end
 
+  def get_by_tag
+    @notes = Note.tagged_with(params['tag'])
+
+    render json: @notes
+  end
+
   def update_last_seen
     note = Note.find_by id: params['note']['note_id']
     note.update(:last_seen => DateTime.now)

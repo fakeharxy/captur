@@ -54,6 +54,9 @@ class App extends Component {
 
   changeTag(selectedTag) {
     this.setState({selectedTag});
+    window.fetch('api/notes/' + selectedTag)
+      .then(response => response.json())
+      .then(notes => this.setupNotes(notes));
   }
 
   closeModal() {
