@@ -11,7 +11,7 @@ const EntryBox = ({
     closeModal,
     onSubmit
 }) =>
-<Modal show={showModal} onHide={closeModal}>
+<Modal id="noteModal" show={showModal} onHide={closeModal}>
       <Modal.Header>
         <Modal.Title>Add a new note</Modal.Title>
       </Modal.Header>
@@ -26,6 +26,7 @@ const EntryBox = ({
       </Modal.Body>
 
       <Modal.Footer>
+        <Button type="submit" form="noteForm" value="Submit" onClick={closeModal}>Submit</Button>
         <Button onClick={closeModal}>Close</Button>
       </Modal.Footer>
 

@@ -7,10 +7,12 @@ const Entry = ({
     currentNote,
     onSubmit
   }) =>
-  <form onSubmit={onSubmit}>
-    <input type="textarea" value={currentNote} onChange={onNoteChange} />
-    <input type="text" value={currentTag} onChange={onTagChange} />
-    <button type="submit" name="submit" >Submit</button>
+  <form id='noteForm' onSubmit={onSubmit}>
+      <textarea className="form-control" rows="5" value={currentNote} onChange={onNoteChange} />
+    <div className="input-group">
+      <span className="input-group-addon" id="sizing-addon2">@</span>
+      <input type="text" value={currentTag} onChange={onTagChange} className="tagBox form-control" placeholder="Tags" aria-describedby="sizing-addon2"/>
+    </div>
   </form>
 
 export default Entry
