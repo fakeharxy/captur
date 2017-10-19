@@ -6,6 +6,7 @@ import './App.css';
 import NoteBox from './components/noteBox/noteBox.js';
 import Sidebar from './components/sidebar/sidebar.js';
 import EntryBox from './components/entryForm/entryBox.js';
+import Navbar from './components/navbar/navbar.js';
 
 class App extends Component {
   constructor(props) {
@@ -129,12 +130,15 @@ class App extends Component {
     } = this.state
 
     return (
+      <div>
+      <Navbar
+        openModal={this.openModal}/>
       <div className="wrapper">
-      <Sidebar 
-       tags={tags}
-       changeTag={this.changeTag}
+      <Sidebar
+         tags={tags}
+         changeTag={this.changeTag}
       />
-    <div id='content'>
+      <div id='content'>
           <EntryBox
             showModal={showModal}
             closeModal={this.closeModal}
@@ -149,8 +153,8 @@ class App extends Component {
             onNext={this.onNext}
             selectedTag={selectedTag}
           />
-      <button onClick={this.openModal}> Add New </button>
       </div>
+    </div>
       </div>
     );
   }
