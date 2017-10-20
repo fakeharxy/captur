@@ -18,7 +18,7 @@ RSpec.describe Note do
   context 'creating tags' do
     before(:each) do
       @note = Note.create!(body: "test")
-      @note.all_tags = 'Mike,Bob,Terry'
+      @note.all_tags = 'mike,bob,terry'
     end
 
     it 'adds multiples tags to the database' do
@@ -26,15 +26,21 @@ RSpec.describe Note do
     end
 
     it 'can get tags in as a string' do
-      expect(@note.all_tags).to eq('Mike, Bob, Terry')
+      expect(@note.all_tags).to eq('mike, bob, terry')
+    end
+
+    it 'will make all tags lowercase' do
+      note = Note.create!(body: "test")
+      note.all_tags = 'Mike,Bob,Terry'
+      expect(note.all_tags).to eq('mike, bob, terry')
     end
   end
 
   context 'validations' do
     it 'strips out spaces' do
       @note = Note.create!(body: "test")
-      @note.all_tags = 'Mike         ,Bob,      Terry'
-      expect(@note.all_tags).to eq('Mike, Bob, Terry')
+      @note.all_tags = 'mike         ,bob,      terry'
+      expect(@note.all_tags).to eq('mike, bob, terry')
     end
   end
 
@@ -42,9 +48,9 @@ RSpec.describe Note do
     it 'finds all notes with a tag' do
      [@note1 = Note.create!(body: "test"),
       @note2 = Note.create!(body: "test")].each do |note|
-       note.all_tags = "testTag"
+       note.all_tags = "testtag"
      end
-     expect(Note.tagged_with("testTag").count).to eq(2)
+     expect(Note.tagged_with("testtag").count).to eq(2)
     end
   end
 end
