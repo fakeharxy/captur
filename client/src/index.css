@@ -126,6 +126,11 @@ ul ul a {
   background: #6d7fcc;
 }
 
+.taglist {
+  width: 25%;
+  margin: auto;
+}
+
 .modal-dialog {
   width: 60%;
 }

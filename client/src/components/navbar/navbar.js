@@ -1,7 +1,7 @@
 import {Navbar, Nav, NavItem} from 'react-bootstrap';
 import * as React from 'react';
 
-const CustomNavbar = ({openModal}) =>
+const CustomNavbar = ({openModal, toggleScreen, buttonName}) =>
     <Navbar inverse>
       <Navbar.Header>
         <Navbar.Brand>
@@ -11,6 +11,7 @@ const CustomNavbar = ({openModal}) =>
         </Navbar.Header>
       <Nav>
         <NavItem onClick={openModal}>New</NavItem>
+        <NavItem onClick={toggleScreen}>{buttonName}</NavItem>
       </Nav>
     </Navbar>
 

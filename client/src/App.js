@@ -7,11 +7,14 @@ import NoteBox from './components/noteBox/noteBox.js';
 import Sidebar from './components/sidebar/sidebar.js';
 import EntryBox from './components/entryForm/entryBox.js';
 import Navbar from './components/navbar/navbar.js';
+import TagScreen from './components/tagScreen/tagscreen.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showTagScreen: false,
+      showNoteScreen: true,
       showModal: false,
       notes: [],
       currentNote: '',
@@ -21,6 +24,7 @@ class App extends Component {
       tags: [],
     };
 
+    this.toggleScreen = this.toggleScreen.bind(this);
     this.changeTag = this.changeTag.bind(this);
     this.onNext = this.onNext.bind(this);
     this.handleNoteChange = this.handleNoteChange.bind(this);
@@ -52,6 +56,21 @@ class App extends Component {
       .then(tags => this.setupTags(tags));
   }
 
+  toggleScreen() {
+    let showNoteScreen = null;
+    let showTagScreen = null;
+    if (this.state.showNoteScreen) {
+      showNoteScreen = false;
+      showTagScreen = true;
+    } else {
+      showNoteScreen = true;
+      showTagScreen = false;
+    }
+    this.setState({
+      showNoteScreen,
+      showTagScreen
+    })
+  }
 
   setupNotes(notes) {
     var viewableNote = notes[0]
@@ -118,6 +137,14 @@ class App extends Component {
     })
   }
 
+  buttonName() {
+    if (this.state.showNoteScreen) {
+      return "Topics"
+    } else {
+      return "Notes"
+    }
+  }
+
   handleTagChange(e) {
     this.setState({
       currentTag: e.target.value,
@@ -148,13 +175,31 @@ class App extends Component {
       tags,
       viewableNote,
       showModal,
-      selectedTag
+      selectedTag,
+      showNoteScreen,
+      showTagScreen
     } = this.state
+
+    let ui = null;
+    if (showNoteScreen) {
+      ui = <NoteBox
+            viewableNote={viewableNote}
+            onNext={this.onNext}
+            selectedTag={selectedTag}
+          />
+    } else if (showTagScreen) {
+      ui = <TagScreen
+            tags={tags}
+          />
+    }
 
     return (
       <div>
       <Navbar
-        openModal={this.openModal}/>
+        openModal={this.openModal}
+        toggleScreen={this.toggleScreen}
+        buttonName={this.buttonName()}
+      />
       <div className="wrapper">
       <Sidebar
          tags={tags}
@@ -170,11 +215,8 @@ class App extends Component {
             onNoteChange={this.handleNoteChange}
             onTagChange={this.handleTagChange}/>
 
-          <NoteBox
-            viewableNote={viewableNote}
-            onNext={this.onNext}
-            selectedTag={selectedTag}
-          />
+      {ui}
+
       </div>
     </div>
       </div>
