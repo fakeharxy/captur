@@ -34,6 +34,11 @@ RSpec.describe Note do
       note.all_tags = 'Mike,Bob,Terry'
       expect(note.all_tags).to eq('mike, bob, terry')
     end
+
+    it 'will remove question marks' do
+      @note.all_tags = 'mike?,bob?,terry?'
+      expect(@note.all_tags).to eq('mike, bob, terry')
+    end
   end
 
   context 'validations' do

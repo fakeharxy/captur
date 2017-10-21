@@ -28,16 +28,30 @@ class App extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
+    this.updateAllData = this.updateAllData.bind(this);
   }
 
   componentDidMount() {
+    this.updateAllData()
+  }
+
+  updateAllData() {
+    this.updateNotes();
+    this.updateTags();
+  }
+
+  updateNotes() {
     window.fetch('api/notes')
       .then(response => response.json())
       .then(notes => this.setupNotes(notes));
+  }
+
+  updateTags() {
     window.fetch('api/tags/get_all')
       .then(response => response.json())
       .then(tags => this.setupTags(tags));
   }
+
 
   setupNotes(notes) {
     var viewableNote = notes[0]
@@ -54,18 +68,25 @@ class App extends Component {
   }
 
   changeTag(selectedTag) {
-    this.setState({selectedTag});
+    this.setState({
+      selectedTag
+    });
     window.fetch('api/notes/' + selectedTag)
       .then(response => response.json())
       .then(notes => this.setupNotes(notes));
   }
 
   closeModal() {
-    this.setState({ showModal: false });
+    this.setState({
+      showModal: false
+    });
+    window.setTimeout(this.updateAllData, 1000);
   }
 
   openModal() {
-    this.setState({ showModal: true });
+    this.setState({
+      showModal: true
+    });
   }
 
   onNext() {
@@ -84,7 +105,7 @@ class App extends Component {
     })
   }
 
-  sendDatatoApi(where,what) {
+  sendDatatoApi(where, what) {
     var request = new XMLHttpRequest();
     request.open('POST', '/api/' + where, true);
     request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
@@ -105,6 +126,7 @@ class App extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+
     const formData = {
       "note": {
         "body": this.state.currentNote,

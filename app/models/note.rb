@@ -9,7 +9,7 @@ class Note < ApplicationRecord
 
   def all_tags=(names)
     self.tags = names.split(',').map do |name|
-      Tag.where(name: name.strip.downcase).first_or_create!
+      Tag.where(name: name.strip.downcase.delete('?')).first_or_create!
     end
   end
 
@@ -18,6 +18,6 @@ class Note < ApplicationRecord
   end
 
   def self.tagged_with(name)
-    Tag.find_by_name!(name).notes
+    Tag.find_by_name!(name.strip).notes
   end
 end

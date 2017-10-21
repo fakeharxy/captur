@@ -1,4 +1,4 @@
-import {Navbar, Nav, NavItem, FormGroup, FormControl, Button} from 'react-bootstrap';
+import {Navbar, Nav, NavItem} from 'react-bootstrap';
 import * as React from 'react';
 
 const CustomNavbar = ({openModal}) =>

@@ -5,11 +5,10 @@ const Sidebar =({
   changeTag
    }) =>
 
-<nav id="sidebar">
+( <nav id="sidebar">
       <div className="sidebar-header">
           <h4>Topic</h4>
       </div>
-
       <ul className="list-unstyled components">
   {tags.map((tag) =>
           <li className="unselectable" key={tag.id}><a onClick={() => changeTag(tag.name)}>{tag.name}</a></li>
@@ -17,4 +16,5 @@ const Sidebar =({
       </ul>
 </nav>
 
+)
 export default Sidebar

@@ -51,6 +51,10 @@ p {
   color: #999;
 }
 
+a:focus {
+    outline-width: 0;
+}
+
 a,
 a:hover,
 a:focus {

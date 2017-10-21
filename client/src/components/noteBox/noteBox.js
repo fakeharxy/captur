@@ -6,13 +6,13 @@ const NoteBox = ({
     onNext,
     selectedTag
   }) =>
-  <div key={viewableNote.id} className="panel panel-default">
+  ( viewableNote ? <div key={viewableNote.id} className="panel panel-default">
     <h4 className="panel-heading">{selectedTag}</h4>
     <p className="panel-body">{viewableNote.body}</p>
       <Button
         onClick={onNext}
         >Next</Button>
-  </div>
-
+  </div> : <h5> No notes yet... </h5>
+  )
 
 export default NoteBox;
