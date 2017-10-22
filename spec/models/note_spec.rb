@@ -39,6 +39,10 @@ RSpec.describe Note do
       @note.all_tags = 'mike?,bob?,terry?'
       expect(@note.all_tags).to eq('mike, bob, terry')
     end
+
+    it 'makes all new tags with importance 5' do
+      expect(@note.tag_objects[0].importance).to eq(5)
+    end
   end
 
   context 'validations' do

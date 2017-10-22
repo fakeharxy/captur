@@ -4,7 +4,7 @@ body {
   font-family: sans-serif;
 }
 
-.navbar { 
+.navbar {
   border-radius: 0px;
   margin-bottom: 0px;
 }
@@ -52,7 +52,7 @@ p {
 }
 
 a:focus {
-    outline-width: 0;
+  outline-width: 0;
 }
 
 a,
@@ -68,12 +68,12 @@ h4 {
 }
 
 .unselectable {
-cursor: default;
--moz-user-select: -moz-none;
--khtml-user-select: none;
--webkit-user-select: none;
- -o-user-select: none;
- user-select: none
+  cursor: default;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none
 }
 
 #content {
@@ -129,6 +129,11 @@ ul ul a {
 .taglist {
   width: 25%;
   margin: auto;
+}
+
+.panel-body {
+  padding: 0px 40px;
+  white-space: pre-wrap;
 }
 
 .modal-dialog {

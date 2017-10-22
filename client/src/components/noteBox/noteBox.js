@@ -11,7 +11,7 @@ const NoteBox = ({
     <p className="panel-body">{viewableNote.body}</p>
       <Button
         onClick={onNext}
-        >Next</Button>
+        >More...</Button>
   </div> : <h5> No notes yet... </h5>
   )
 

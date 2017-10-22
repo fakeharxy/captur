@@ -9,12 +9,16 @@ class Note < ApplicationRecord
 
   def all_tags=(names)
     self.tags = names.split(',').map do |name|
-      Tag.where(name: name.strip.downcase.delete('?')).first_or_create!
+      Tag.where(name: name.strip.downcase.delete('?')).first_or_create!(importance: 5)
     end
   end
 
   def all_tags
     self.tags.map(&:name).join(", ")
+  end
+
+  def tag_objects
+    self.tags
   end
 
   def self.tagged_with(name)
