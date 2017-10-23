@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 // import logo from './logo.svg';
 import './App.css';
+import 'react-select/dist/react-select.css';
 import NoteBox from './components/noteBox/noteBox.js';
 import Sidebar from './components/sidebar/sidebar.js';
 import EntryBox from './components/entryForm/entryBox.js';
@@ -207,6 +208,7 @@ class App extends Component {
       />
       <div id='content'>
           <EntryBox
+            tags={tags}
             showModal={showModal}
             closeModal={this.closeModal}
             onSubmit={this.onSubmit}
