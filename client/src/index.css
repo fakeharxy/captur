@@ -37,6 +37,11 @@ body {
   }
 }
 
+.noclick {
+  pointer-events: none;
+  cursor: default;
+}
+
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 body {
   font-family: 'Poppins', sans-serif;
@@ -129,7 +134,7 @@ ul ul a {
 .taglist {
   width: 45%;
   margin: auto;
-  margin: 20px auto;
+  margin: 30px auto;
 }
 
 .pagination {

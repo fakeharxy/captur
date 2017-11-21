@@ -1,44 +1,42 @@
 import * as React from 'react';
+
 import {
   ListGroup,
   ListGroupItem
 } from 'react-bootstrap';
+
 import ListItem from './tagPagination.js';
 
 
-const TagScreen = ({
-    tags
-  }) =>
-{
-  function getRows(tag) {
-    var rows = [];
-    for (var i = 1; i < 10; i++) { 
-      var active = false;
-      if (tag.importance === i) {
-        active = true;
-      }
-      rows.push(<ListItem 
-        key={i}
-        active={active}
-        index={i} />)
-    }
-    return rows
+class TagScreen extends React.Component {
+  constructor(...args) {
+    super(...args);
   }
 
- return(
-   <ListGroup>
-    { tags.sort(function(a,b) {return a.importance < b.importance}).map((tag) =>
-      ( <span key={tag.id}>
+  updateTag(id, value) {
+    this.setState(this.props.tags.reduce( (current, item) => {
+      if (item.id === id) {
+        item.importance = value;
+      }
+      current.push(item);
+      return current; }, []
+    ) );
+  }
+
+  render() {
+     return(
+     <ListGroup>
+        { this.props.tags.map((tag) =>
+        ( <span key={tag.id}>
           <ListGroupItem className='taglist' bsStyle="success"><p>{tag.name}</p>
-            <ul className="pagination pull-right pagination-sm">
-              {getRows(tag)}
-            </ul>
-          </ListGroupItem> 
+          <ListItem current={tag.importance} onUpdate={(...args) => this.updateTag(...args)} tagId={tag.id} />
+          </ListGroupItem>
         </span>
       )
     )}
    </ListGroup>
  )
 
+  }
 }
 export default TagScreen;
