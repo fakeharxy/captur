@@ -19,7 +19,7 @@ class NotesController < ActionController::API
                      :body => note_params['body'],
                      :last_seen => DateTime.now)
 
-    @note.all_tags = note_params['all_tags']
+    @note.all_secondary_tags = note_params['all_tags']
 
     if @note.save
       render json: @note, status: :created, location: @note

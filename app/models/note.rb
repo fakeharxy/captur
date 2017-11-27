@@ -1,13 +1,15 @@
 class Note < ApplicationRecord
   has_many :taggings
+  has_one :primaryTaggings
   has_many :tags, through: :taggings
+  has_one :tags, through: :primaryTaggings
   validates :body, presence: true
 
   def self.order_by_last_seen
     all.order(:last_seen)
   end
 
-  def all_tags=(names)
+  def all_secondary_tags=(names)
     self.tags = names.split(',').map do |name|
       Tag.where(name: name.strip.downcase.delete('?')).first_or_create!(importance: 5)
     end
@@ -22,6 +24,7 @@ class Note < ApplicationRecord
   end
 
   def self.tagged_with(name)
-    Tag.find_by_name!(name.strip).notes
+    [*Tag.find_by_name!(name.strip).primes,
+     *Tag.find_by_name!(name.strip).notes]
   end
 end

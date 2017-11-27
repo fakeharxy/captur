@@ -15,10 +15,10 @@ RSpec.describe Note do
     end
   end
 
-  context 'creating tags' do
+  context 'creating secondary tags' do
     before(:each) do
       @note = Note.create!(body: "test")
-      @note.all_tags = 'mike,bob,terry'
+      @note.all_secondary_tags = 'mike,bob,terry'
     end
 
     it 'adds multiples tags to the database' do
@@ -31,12 +31,12 @@ RSpec.describe Note do
 
     it 'will make all tags lowercase' do
       note = Note.create!(body: "test")
-      note.all_tags = 'Mike,Bob,Terry'
+      note.all_secondary_tags = 'Mike,Bob,Terry'
       expect(note.all_tags).to eq('mike, bob, terry')
     end
 
     it 'will remove question marks' do
-      @note.all_tags = 'mike?,bob?,terry?'
+      @note.all_secondary_tags = 'mike?,bob?,terry?'
       expect(@note.all_tags).to eq('mike, bob, terry')
     end
 
@@ -48,7 +48,7 @@ RSpec.describe Note do
   context 'validations' do
     it 'strips out spaces' do
       @note = Note.create!(body: "test")
-      @note.all_tags = 'mike         ,bob,      terry'
+      @note.all_secondary_tags = 'mike         ,bob,      terry'
       expect(@note.all_tags).to eq('mike, bob, terry')
     end
   end
@@ -57,7 +57,7 @@ RSpec.describe Note do
     it 'finds all notes with a tag' do
      [@note1 = Note.create!(body: "test"),
       @note2 = Note.create!(body: "test")].each do |note|
-       note.all_tags = "testtag"
+       note.all_secondary_tags = "testtag"
      end
      expect(Note.tagged_with("testtag").count).to eq(2)
     end
