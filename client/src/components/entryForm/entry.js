@@ -11,7 +11,12 @@ const Entry = ({
       <textarea className="form-control" rows="8" value={currentNote} onChange={onNoteChange} />
     <div className="input-group">
       <span className="input-group-addon" id="sizing-addon2">#</span>
-      <input type="text" value={currentTag} onChange={onTagChange} className="tagBox form-control" placeholder="Max 3, separated by commas" aria-describedby="sizing-addon2"/>
+      <input type="text" 
+             value={currentTag}
+             onChange={onTagChange}
+             className="tagBox form-control"
+             placeholder="Max 3, separated by commas"
+             aria-describedby="sizing-addon2"/>
     </div>
   </form>
 

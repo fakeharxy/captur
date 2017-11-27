@@ -1,8 +1,8 @@
 class Note < ApplicationRecord
   has_many :taggings
-  has_one :primaryTaggings
+  has_one :primaryTagging
   has_many :tags, through: :taggings
-  has_one :tags, through: :primaryTaggings
+  has_one :primetag, through: :primaryTagging, source: :tag
   validates :body, presence: true
 
   def self.order_by_last_seen
@@ -15,8 +15,13 @@ class Note < ApplicationRecord
     end
   end
 
+  def primary_tag=(tag_name)
+    self.primetag = Tag.find_or_create_by(name: tag_name.strip.downcase.delete('?'), importance: 5)
+  end
+
+
   def all_tags
-    self.tags.map(&:name).join(", ")
+    [*self.tags.map(&:name), self.primetag.name]
   end
 
   def tag_objects

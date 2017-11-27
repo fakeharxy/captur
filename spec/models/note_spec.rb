@@ -15,9 +15,21 @@ RSpec.describe Note do
     end
   end
 
+  context 'creating primary tags' do
+    before(:each) do
+      @note = Note.create!(body: 'test')
+      @note.primary_tag = 'mike'
+    end
+
+    it 'adds tag to the database' do
+      expect(@note.primetag).to be_kind_of(Tag)
+    end
+  end
+
   context 'creating secondary tags' do
     before(:each) do
-      @note = Note.create!(body: "test")
+      @note = Note.create!(body: 'test')
+      @note.primary_tag = 'hello'
       @note.all_secondary_tags = 'mike,bob,terry'
     end
 
@@ -25,19 +37,21 @@ RSpec.describe Note do
       expect(@note.tags.count).to eq(3)
     end
 
-    it 'can get tags in as a string' do
-      expect(@note.all_tags).to eq('mike, bob, terry')
+    it 'can get tags in as an array' do
+      @note.primary_tag = 'hello'
+      expect(@note.all_tags).to eq(%w(mike bob terry hello))
     end
 
     it 'will make all tags lowercase' do
-      note = Note.create!(body: "test")
+      note = Note.create!(body: 'test')
       note.all_secondary_tags = 'Mike,Bob,Terry'
-      expect(note.all_tags).to eq('mike, bob, terry')
+      note.primary_tag = 'hello'
+      expect(note.all_tags).to eq(%w(mike bob terry hello))
     end
 
     it 'will remove question marks' do
       @note.all_secondary_tags = 'mike?,bob?,terry?'
-      expect(@note.all_tags).to eq('mike, bob, terry')
+      expect(@note.all_tags).to eq(%w(mike bob terry hello))
     end
 
     it 'makes all new tags with importance 5' do
@@ -47,19 +61,20 @@ RSpec.describe Note do
 
   context 'validations' do
     it 'strips out spaces' do
-      @note = Note.create!(body: "test")
+      @note = Note.create!(body: 'test')
+      @note.primary_tag = 'hello'
       @note.all_secondary_tags = 'mike         ,bob,      terry'
-      expect(@note.all_tags).to eq('mike, bob, terry')
+      expect(@note.all_tags).to eq(%w(mike bob terry hello))
     end
   end
 
   context 'searching on tags' do
     it 'finds all notes with a tag' do
-     [@note1 = Note.create!(body: "test"),
-      @note2 = Note.create!(body: "test")].each do |note|
-       note.all_secondary_tags = "testtag"
-     end
-     expect(Note.tagged_with("testtag").count).to eq(2)
+      [@note1 = Note.create!(body: 'test'),
+       @note2 = Note.create!(body: 'test')].each do |note|
+        note.all_secondary_tags = 'testtag'
+      end
+      expect(Note.tagged_with('testtag').count).to eq(2)
     end
   end
 end
