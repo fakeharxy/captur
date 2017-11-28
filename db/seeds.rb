@@ -6,11 +6,3 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 #
-  Note.create(body: "This is a goddam today note",
-              last_seen: DateTime.now )
-  Note.create(body: "This is a note from yesterday",
-              last_seen: DateTime.yesterday )
-  Note.create(body: "This is a goddam note from two days ago",
-              last_seen: 2.days.ago )
-  Note.create(body: "This is a goddam ancient note. So long ago.",
-              last_seen: 3.days.ago )

@@ -16,7 +16,7 @@ class Note < ApplicationRecord
   end
 
   def primary_tag=(tag_name)
-    self.primetag = Tag.find_or_create_by(name: tag_name.strip.downcase.delete('?'), importance: 5)
+    self.primetag = Tag.where(name: tag_name.strip.downcase.delete('?')).first_or_create!(importance: 5)
   end
 
 

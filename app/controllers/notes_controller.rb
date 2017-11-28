@@ -20,6 +20,7 @@ class NotesController < ActionController::API
                      :last_seen => DateTime.now)
 
     @note.all_secondary_tags = note_params['all_tags']
+    @note.primary_tag = note_params['prime']
 
     if @note.save
       render json: @note, status: :created, location: @note
@@ -61,6 +62,6 @@ class NotesController < ActionController::API
 
     # Only allow a trusted parameter "white list" through.
     def note_params
-      params.require(:note).permit(:note_id, :body, :last_seen, :all_tags)
+      params.require(:note).permit(:note_id, :body, :last_seen, :all_tags, :prime)
     end
 end

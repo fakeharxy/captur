@@ -18,7 +18,8 @@ class App extends Component {
       showModal: false,
       notes: [],
       currentNote: '',
-      currentTag: '',
+      currentSecondaryTag: '',
+      currentPrimaryTag: '',
       selectedTag: 'Note',
       viewableNote: {},
       tags: [],
@@ -28,7 +29,8 @@ class App extends Component {
     this.changeTag = this.changeTag.bind(this);
     this.onNext = this.onNext.bind(this);
     this.handleNoteChange = this.handleNoteChange.bind(this);
-    this.handleTagChange = this.handleTagChange.bind(this);
+    this.handleSecondaryTagChange = this.handleSecondaryTagChange.bind(this);
+    this.handlePrimaryTagChange = this.handlePrimaryTagChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -145,9 +147,15 @@ class App extends Component {
     }
   }
 
-  handleTagChange(e) {
+  handleSecondaryTagChange(e) {
     this.setState({
-      currentTag: e.target.value,
+      currentSecondaryTag: e.target.value,
+    })
+  }
+
+  handlePrimaryTagChange(e) {
+    this.setState({
+      currentPrimaryTag: e.target.value,
     })
   }
 
@@ -157,7 +165,8 @@ class App extends Component {
     const formData = {
       "note": {
         "body": this.state.currentNote,
-        "all_tags": this.state.currentTag
+        "all_tags": this.state.currentSecondaryTag,
+        "prime": this.state.currentPrimaryTag
       }
     }
     this.sendDatatoApi('/notes', formData)
@@ -170,7 +179,8 @@ class App extends Component {
 
   render() {
     const {
-      currentTag,
+      currentSecondaryTag,
+      currentPrimaryTag,
       currentNote,
       tags,
       viewableNote,
@@ -212,9 +222,11 @@ class App extends Component {
             closeModal={this.closeModal}
             onSubmit={this.onSubmit}
             currentNote={currentNote}
-            currentTag={currentTag}
+            currentSecondaryTag={currentSecondaryTag}
+            currentPrimaryTag={currentPrimaryTag}
             onNoteChange={this.handleNoteChange}
-            onTagChange={this.handleTagChange}/>
+            onSecondaryTagChange={this.handleSecondaryTagChange}
+            onPrimaryTagChange={this.handlePrimaryTagChange}/>
 
       {ui}
 

@@ -2,8 +2,10 @@ import * as React from 'react';
 
 const Entry = ({
     onNoteChange,
-    onTagChange,
-    currentTag,
+    onSecondaryTagChange,
+    onPrimaryTagChange,
+    currentSecondaryTag,
+    currentPrimaryTag,
     currentNote,
     onSubmit
   }) =>
@@ -12,10 +14,16 @@ const Entry = ({
     <div className="input-group">
       <span className="input-group-addon" id="sizing-addon2">#</span>
       <input type="text" 
-             value={currentTag}
-             onChange={onTagChange}
+             value={currentPrimaryTag}
+             onChange={onPrimaryTagChange}
              className="tagBox form-control"
-             placeholder="Max 3, separated by commas"
+             placeholder="Primary tag"
+             aria-describedby="sizing-addon2"/>
+      <input type="text" 
+             value={currentSecondaryTag}
+             onChange={onSecondaryTagChange}
+             className="tagBox form-control"
+             placeholder="Secondary tags"
              aria-describedby="sizing-addon2"/>
     </div>
   </form>

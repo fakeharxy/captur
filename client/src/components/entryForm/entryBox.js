@@ -4,8 +4,10 @@ import {Modal, Button} from 'react-bootstrap';
 
 const EntryBox = ({
     onNoteChange,
-    onTagChange,
-    currentTag,
+    onSecondaryTagChange,
+    onPrimaryTagChange,
+    currentSecondaryTag,
+    currentPrimaryTag,
     currentNote,
     showModal,
     closeModal,
@@ -20,9 +22,10 @@ const EntryBox = ({
               <Entry
               onSubmit={onSubmit}
               currentNote={currentNote}
-              currentTag={currentTag}
+              currentTag={currentSecondaryTag}
               onNoteChange={onNoteChange}
-              onTagChange={onTagChange}/>
+              onPrimaryTagChange={onPrimaryTagChange}
+              onSecondaryTagChange={onSecondaryTagChange}/>
       </Modal.Body>
 
       <Modal.Footer>
