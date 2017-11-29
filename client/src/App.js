@@ -77,9 +77,11 @@ class App extends Component {
 
   changeToToday() {
     this.updateNotes();
-    var selectedTag = "Today"
+    let selectedTag = "Today"
+    let showNoteScreen = true;
     this.setState({
-      selectedTag
+      selectedTag,
+      showNoteScreen
     })
   }
 
