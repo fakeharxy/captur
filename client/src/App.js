@@ -20,7 +20,7 @@ class App extends Component {
       currentNote: '',
       currentSecondaryTag: '',
       currentPrimaryTag: '',
-      selectedTag: 'Note',
+      selectedTag: 'Today',
       viewableNote: {},
       tags: [],
     };
@@ -32,6 +32,7 @@ class App extends Component {
     this.handleSecondaryTagChange = this.handleSecondaryTagChange.bind(this);
     this.handlePrimaryTagChange = this.handlePrimaryTagChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.changeToToday = this.changeToToday.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
     this.updateAllData = this.updateAllData.bind(this);
@@ -74,11 +75,19 @@ class App extends Component {
     })
   }
 
+  changeToToday() {
+    this.updateNotes();
+    var selectedTag = "Today"
+    this.setState({
+      selectedTag
+    })
+  }
+
   setupNotes(notes) {
     var viewableNote = notes[0]
     this.setState({
       notes,
-      viewableNote
+      viewableNote,
     });
   }
 
@@ -172,7 +181,8 @@ class App extends Component {
     this.sendDatatoApi('/notes', formData)
     this.setState({
       currentNote: "",
-      currentTag: ""
+      currentTag: "",
+      showNoteScreen: true
     });
   }
 
@@ -209,6 +219,7 @@ class App extends Component {
         openModal={this.openModal}
         toggleScreen={this.toggleScreen}
         buttonName={this.buttonName()}
+        updateData={this.changeToToday}
       />
       <div className="wrapper">
       <Sidebar
@@ -230,9 +241,9 @@ class App extends Component {
 
       {ui}
 
+        </div>
       </div>
-    </div>
-      </div>
+     </div>
     );
   }
 }
