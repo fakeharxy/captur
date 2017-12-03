@@ -19,7 +19,6 @@ class Note < ApplicationRecord
     self.primetag = Tag.where(name: tag_name.strip.downcase.delete('?')).first_or_create!(importance: 5)
   end
 
-
   def all_tags
     [*self.tags.map(&:name), self.primetag.name]
   end

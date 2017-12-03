@@ -76,5 +76,6 @@ RSpec.describe Note do
       end
       expect(Note.tagged_with('testtag').count).to eq(2)
     end
+
   end
 end

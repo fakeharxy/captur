@@ -23,6 +23,7 @@ class App extends Component {
       selectedTag: 'Today',
       viewableNote: {},
       tags: [],
+      primes: [],
     };
 
     this.toggleScreen = this.toggleScreen.bind(this);
@@ -57,6 +58,9 @@ class App extends Component {
     window.fetch('api/tags/get_all')
       .then(response => response.json())
       .then(tags => this.setupTags(tags));
+    window.fetch('api/tags/primes_all')
+      .then(response => response.json())
+      .then(primes => this.setupPrimes(primes));
   }
 
   toggleScreen() {
@@ -99,8 +103,16 @@ class App extends Component {
     });
   }
 
-  changeTag(selectedTag) {
+  setupPrimes(primes) {
     this.setState({
+      primes,
+    });
+  }
+
+  changeTag(selectedTag) {
+    let showNoteScreen = true;
+    this.setState({
+      showNoteScreen,
       selectedTag
     });
     window.fetch('api/notes/' + selectedTag)
@@ -194,6 +206,7 @@ class App extends Component {
       currentSecondaryTag,
       currentPrimaryTag,
       currentNote,
+      primes,
       tags,
       viewableNote,
       showModal,
@@ -211,7 +224,7 @@ class App extends Component {
           />
     } else if (showTagScreen) {
       ui = <TagScreen
-            tags={tags}
+            tags={primes}
           />
     }
 
