@@ -9,6 +9,14 @@ class Note < ApplicationRecord
     all.order(:last_seen)
   end
 
+  def self.order_by_dynamic_importance
+    all.sort_by(&:dynamic_importance).reverse!
+  end
+
+  def dynamic_importance
+    (self.primetag.importance * (Date.today - self.last_seen)).to_i
+  end
+
   def all_secondary_tags=(names)
     self.tags = names.split(',').map do |name|
       Tag.where(name: name.strip.downcase.delete('?')).first_or_create!(importance: 5)

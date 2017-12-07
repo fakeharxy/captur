@@ -3,8 +3,7 @@ class NotesController < ActionController::API
 
   # GET /notes
   def index
-    @notes = Note.order_by_last_seen
-
+    @notes = Note.order_by_dynamic_importance
     render json: @notes
   end
 

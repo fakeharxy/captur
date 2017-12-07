@@ -6,8 +6,8 @@ class TagsController < ActionController::API
 
   def primes_all
     @primes = Note.all.map do |note|
-       note.primetag
-    end.uniq!
+      note.primetag
+    end.uniq
     render json: @primes
   end
 
