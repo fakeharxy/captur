@@ -4,13 +4,16 @@ class Note < ApplicationRecord
   has_many :tags, through: :taggings
   has_one :primetag, through: :primaryTagging, source: :tag
   validates :body, presence: true
+  attribute :last_seen, :date, default: Date.today
+  attribute :seen, :boolean, default: false
+  
 
   def self.order_by_last_seen
     all.order(:last_seen)
   end
 
   def self.order_by_dynamic_importance
-    all.sort_by(&:dynamic_importance).reverse!
+    all.sort_by(&:dynamic_importance).reject {|item| item.seen}.reverse!
   end
 
   def dynamic_importance

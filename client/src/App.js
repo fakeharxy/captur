@@ -37,6 +37,7 @@ class App extends Component {
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
     this.updateAllData = this.updateAllData.bind(this);
+    this.clearSeen = this.clearSeen.bind(this);
   }
 
   componentDidMount() {
@@ -133,6 +134,12 @@ class App extends Component {
     });
   }
 
+  clearSeen() {
+    let formData = {}
+    this.sendDatatoApi('notes/clear_seen', formData)
+    window.setTimeout(this.updateAllData, 1000);
+  }
+
   onNext() {
     var notes = this.state.notes;
     const formData = {
@@ -141,7 +148,10 @@ class App extends Component {
       }
     }
     this.sendDatatoApi('notes/update_last_seen', formData)
-    notes.push(notes.splice(0, 1)[0]);
+    notes.splice(0, 1);
+    if (notes === []){
+          this.updateNotes();
+    }
     var viewableNote = notes[0];
     this.setState({
       notes,
@@ -220,6 +230,7 @@ class App extends Component {
       ui = <NoteBox
             viewableNote={viewableNote}
             onNext={this.onNext}
+            clearSeen={this.clearSeen}
             selectedTag={selectedTag}
           />
     } else if (showTagScreen) {

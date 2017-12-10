@@ -13,6 +13,7 @@ const EntryBox = ({
     closeModal,
     onSubmit
 }) =>
+
 <Modal id="noteModal" show={showModal} onHide={closeModal}>
       <Modal.Header>
         <Modal.Title>Add a new note</Modal.Title>

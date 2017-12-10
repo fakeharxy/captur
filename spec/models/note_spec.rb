@@ -13,6 +13,16 @@ RSpec.describe Note do
       assert !note.valid?
       assert_equal [:body], note.errors.keys
     end
+
+    it 'defaults last_seen to today' do
+      note = Note.new(body: 'hello')
+      expect(note.last_seen).to eq(Date.today)
+    end
+
+    it 'defaults seen to false' do
+      note = Note.new(body: 'hello')
+      expect(note.seen).to eq(false)
+    end
   end
 
   context 'creating primary tags' do
@@ -101,6 +111,13 @@ RSpec.describe Note do
       note.primary_tag = 'important'
       note2.primary_tag = 'unimportant'
       expect(Note.order_by_dynamic_importance[0].body).to eq('last')
+    end
+
+    it 'removes any that are seen' do
+      tag = Tag.create!(name: 'important', importance: 1)
+      note = Note.create!(body: 'first', last_seen: 2.days.ago, seen:true)
+      note.primary_tag = 'important'
+      expect(Note.order_by_dynamic_importance.count).to eq(0)
     end
   end
 

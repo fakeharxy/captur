@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   scope '/api' do
     get '/notes/:tag', to: 'notes#get_by_tag'
+    post '/notes/clear_seen', to: 'notes#clear_seen'
     resources :notes
     post '/tags/update', to: 'tags#update_importance'
     post  '/notes/update_last_seen', to: 'notes#update_last_seen'

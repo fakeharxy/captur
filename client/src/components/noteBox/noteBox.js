@@ -4,6 +4,7 @@ import Button from './button.js'
 const NoteBox = ({
     viewableNote,
     onNext,
+    clearSeen,
     selectedTag
   }) =>
   ( viewableNote ? <div key={viewableNote.id} className="panel panel-default">
@@ -12,7 +13,13 @@ const NoteBox = ({
       <Button
         onClick={onNext}
         >Seen it!</Button>
-  </div> : <h5> No notes yet... </h5>
+  </div> : 
+    <div>
+    <h5> No notes for today... </h5>
+    <Button 
+       onClick={clearSeen}
+    > Reset! </Button>
+    </div>
   )
 
 export default NoteBox;

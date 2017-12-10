@@ -50,7 +50,11 @@ class NotesController < ActionController::API
 
   def update_last_seen
     note = Note.find_by id: params['note']['note_id']
-    note.update(:last_seen => DateTime.now)
+    note.update(:last_seen => DateTime.now, :seen => true)
+  end
+
+  def clear_seen
+    Note.update_all(seen: false)
   end
 
   private
