@@ -7,7 +7,7 @@ const Sidebar =({
 
 ( <nav id="sidebar">
       <div className="sidebar-header">
-          <h4>Topic</h4>
+          <h4>My Tags</h4>
       </div>
       <ul className="list-unstyled components">
   {tags.map((tag) =>

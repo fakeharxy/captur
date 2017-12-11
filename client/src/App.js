@@ -174,7 +174,7 @@ class App extends Component {
 
   buttonName() {
     if (this.state.showNoteScreen) {
-      return "Topics"
+      return "Edit Tags"
     } else {
       return "Notes"
     }

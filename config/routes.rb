@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   scope '/api' do
     get '/notes/:tag', to: 'notes#get_by_tag'
     post '/notes/clear_seen', to: 'notes#clear_seen'
